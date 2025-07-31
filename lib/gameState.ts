@@ -5,14 +5,14 @@ import { eq } from 'drizzle-orm';
 type BasePlayer = typeof players.$inferSelect;
 export type Player = BasePlayer & {
 	online: boolean;
-	disconnectTimer?: NodeJS.Timeout;
+	disconnectTimer?: number;
 };
 
 type BaseGame = typeof games.$inferSelect;
 export type Game = BaseGame & {
 	players: Player[];
-	votes?: { [playerId: string]: 'drop' | 'remain' };
-	voteTimer?: NodeJS.Timeout;
+	votes?: { [playerId:string]: 'drop' | 'remain' };
+	voteTimer?: number;
 };
 
 const activeGames = new Map<string, Game>();

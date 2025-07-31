@@ -5,9 +5,6 @@ import { Server } from 'socket.io';
 import { jwtVerify } from 'jose';
 import { parse } from 'cookie';
 import { type Player, loadGame, getGame, updateGame, persistGame } from './lib/gameState';
-import { db } from './db';
-import { players }from './db/schema'
-import { eq } from 'drizzle-orm';
 
 const port = parseInt(process.env.PORT || '3000', 10);
 const dev = process.env.NODE_ENV !== 'production';
@@ -117,12 +114,6 @@ app.prepare().then(() => {
             clearTimeout(player.disconnectTimer);
             delete player.disconnectTimer;
         }
-      } else {
-        const playerFromDb = await db.query.players.findFirst({ where: eq(players.id, playerId)});
-        if(playerFromDb) {
-          // @ts-ignore
-          game.players.push({...playerFromDb, online: true})
-        }
       }
       updateGame(gameId, game)
       io.to(gameId).emit('game_update', game);
@@ -165,7 +156,6 @@ app.prepare().then(() => {
         }
     
         initiator.isGatheringSummoned = true;
-        db.update(players).set({ isGatheringSummoned: true }).where(eq(players.id, playerId)).execute();
         game.votes = {}; // Reset votes for the new gathering
         updateGame(gameId, game);
         io.to(gameId).emit('vote_started', { initiator, nominatedPlayerId });
@@ -174,7 +164,7 @@ app.prepare().then(() => {
           tallyVotes(gameId, nominatedPlayerId);
         }, 120000); // 120 seconds
     
-        game.voteTimer = voteTimer;
+        game.voteTimer = Number(voteTimer);
         updateGame(gameId, game);
       });
 
@@ -194,7 +184,7 @@ app.prepare().then(() => {
             if(game.voteTimer) clearTimeout(game.voteTimer);
             tallyVotes(gameId, nominatedPlayerId);
         }
-    });
+    })
 
     socket.on('disconnect', async () => {
       const game = getGame(gameId);
@@ -211,7 +201,7 @@ app.prepare().then(() => {
       } else {
         player.online = false;
         if (game.status === 'in-progress') {
-          player.disconnectTimer = setTimeout(async () => {
+          const timer = setTimeout(async () => {
               const freshGame = getGame(gameId);
               if (!freshGame) return;
               const freshPlayer = freshGame.players.find((p) => p.id === playerId);
@@ -223,6 +213,7 @@ app.prepare().then(() => {
                   checkWinCondition(gameId);
               }
           }, 30000);
+          player.disconnectTimer = Number(timer);
         }
       }
       

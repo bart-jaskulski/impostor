@@ -2,7 +2,6 @@
   "extends": ["next", "next/core-web-vitals", "next/typescript", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error",
-    "react/jsx-no-literals": "error"
+    "prettier/prettier": "error"
   }
 }

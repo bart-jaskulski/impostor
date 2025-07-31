@@ -5,11 +5,6 @@ import { games } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import GameClient from './game-client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { joinGame } from '@/app/actions';
-import { Checkbox } from '@/components/ui/checkbox';
 import { JoinGameForm } from './join-game-form';
 
 const jwtSecret = new TextEncoder().encode(process.env.SESSION_SECRET!);

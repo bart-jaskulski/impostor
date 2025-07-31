@@ -8,7 +8,6 @@ import { cookies } from 'next/headers';
 import { SignJWT } from 'jose';
 import { z } from 'zod';
 import { eq, and } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 
 const jwtSecret = new TextEncoder().encode(process.env.SESSION_SECRET!);
 const SESSION_COOKIE_NAME = 'session';

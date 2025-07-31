@@ -21,7 +21,7 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-ENV DATABASE_URL "file:/app/data/db.sqlite"
+ENV DATABASE_URL "file:/app/impostor.db"
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -32,6 +32,10 @@ COPY --from=deps --chown=nextjs:nodejs /app/next.config.mjs ./
 COPY --from=deps --chown=nextjs:nodejs /app/public ./public
 COPY --from=deps --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=deps --chown=nextjs:nodejs /app/dist ./dist
+COPY --chown=nextjs:nodejs ./drizzle ./drizzle
+
+RUN chown nextjs:nodejs /app
+
 COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 

@@ -9,6 +9,6 @@
     "noEmit": false,
     "isolatedModules": false
   },
-  "include": ["server.ts"],
+  "include": ["server.ts", "migrate.ts"],
   "exclude": ["node_modules"]
 }

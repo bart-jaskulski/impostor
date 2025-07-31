@@ -22,3 +22,4 @@ dist
 *.log
 npm-debug.log
 adr
+local.db

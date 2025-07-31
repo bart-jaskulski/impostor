@@ -5,6 +5,9 @@ import { Server } from 'socket.io';
 import { jwtVerify } from 'jose';
 import { parse } from 'cookie';
 import { type Player, loadGame, getGame, updateGame, persistGame } from './lib/gameState';
+import { db } from './db';
+import { players }from './db/schema'
+import { eq } from 'drizzle-orm';
 
 const port = parseInt(process.env.PORT || '3000', 10);
 const dev = process.env.NODE_ENV !== 'production';
@@ -121,6 +124,13 @@ app.prepare().then(() => {
           clearTimeout(player.disconnectTimer);
           delete player.disconnectTimer;
         }
+      } else {
+        const playerFromDb = await db.query.players.findFirst({
+          where: eq(players.id, playerId),
+        });
+        if (playerFromDb) {
+          game.players.push({...playerFromDb, online: true});
+        }
       }
       updateGame(gameId, game);
       io.to(gameId).emit('game_update', game);
@@ -169,6 +179,7 @@ app.prepare().then(() => {
       }
 
       initiator.isGatheringSummoned = true;
+      db.update(players).set({isGatheringSummoned: true}).where(eq(players.id, playerId)).execute();
       game.votes = {}; // Reset votes for the new gathering
       updateGame(gameId, game);
       io.to(gameId).emit('vote_started', { initiator, nominatedPlayerId });

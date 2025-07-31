@@ -96,9 +96,6 @@ app.prepare().then(() => {
     }
     
     game.votes = {};
-    game.players.forEach(p => {
-      p.isGatheringSummoned = false;
-    });
 
     updateGame(gameId, game);
     io.to(gameId).emit('game_update', game);
@@ -168,6 +165,7 @@ app.prepare().then(() => {
         }
     
         initiator.isGatheringSummoned = true;
+        db.update(players).set({ isGatheringSummoned: true }).where(eq(players.id, playerId)).execute();
         game.votes = {}; // Reset votes for the new gathering
         updateGame(gameId, game);
         io.to(gameId).emit('vote_started', { initiator, nominatedPlayerId });

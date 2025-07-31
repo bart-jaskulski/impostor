@@ -1,58 +1,31 @@
-import { nanoid } from 'nanoid';
+// middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { jwtVerify, SignJWT } from 'jose';
+import { jwtVerify } from 'jose';
 
 const jwtSecret = new TextEncoder().encode(process.env.SESSION_SECRET!);
 const SESSION_COOKIE_NAME = 'session';
 
-async function mintSessionToken(playerId: string, gameId: string) {
-  const newSessionToken = await new SignJWT()
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setSubject(playerId)
-    .setIssuer(gameId)
-    .setExpirationTime('2h')
-    .sign(jwtSecret);
-
-  return newSessionToken;
-}
-
-export default async function (request: NextRequest) {
+export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/game/')) {
-    // todo: logout mechanism?
-    const response = NextResponse.next();
     const sessionToken = request.cookies.get(SESSION_COOKIE_NAME);
-    const gameId = request.nextUrl.pathname.split('/')[2];
 
     if (sessionToken) {
       try {
+        // Just verify the token exists and is valid. The page will handle the rest.
         await jwtVerify(sessionToken.value, jwtSecret, { algorithms: ['HS256'] });
-
-        return response;
       } catch {
-        // passthrough
+        // If token is invalid, remove it and redirect to the same page.
+        // This cleans up bad cookies.
+        const response = NextResponse.redirect(request.url);
+        response.cookies.delete(SESSION_COOKIE_NAME);
+        return response;
       }
     }
-
-    const newSessionToken = await mintSessionToken(nanoid(21), gameId);
-
-    response.cookies.set(SESSION_COOKIE_NAME, newSessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      path: '/',
-      maxAge: 60 * 60 * 24,
-    });
-
-    return response;
   }
 
-  return request;
+  return NextResponse.next();
 }
 
 export const config = {
-  // Match all pathnames except for
-  // - … if they start with `/app`, `/_next`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: '/((?!api|_next|.*\\..*).*)',
+  matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
 };

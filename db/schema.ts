@@ -27,6 +27,7 @@ export const players = sqliteTable('players', {
 	isGatheringSummoned: integer('is_gathering_summoned', { mode: 'boolean' })
 		.notNull()
 		.default(false),
+	isObserver: integer('is_observer', { mode: 'boolean' }).default(false).notNull(),
 	createdAt: integer('created_at', { mode: 'timestamp' })
 		.notNull()
 		.$defaultFn(() => new Date())

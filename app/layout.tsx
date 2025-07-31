@@ -1,29 +1,42 @@
-import { ReactNode } from 'react';
-import type { Metadata, Viewport } from 'next/types';
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
+import { cn } from '@/lib/utils';
 import './globals.css';
 
+const fontSans = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
+
 export const viewport: Viewport = {
-  themeColor: '#ba274a',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
   width: 'device-width',
   initialScale: 1,
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Fremo - One memory, many perspectives',
-    description: 'Share photos at events with friends and family',
-    manifest: '/manifest.json',
-    robots: {
-      index: false,
-      follow: true,
-    },
-  };
-}
-
-type Props = {
-  children: ReactNode;
+export const metadata: Metadata = {
+  title: 'Impostor Game Facilitator',
+  description: 'A real-time web app to facilitate social deduction games.',
+  manifest: '/manifest.json', // Assuming you might add a manifest later
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-export default function RootLayout({ children }: Props) {
-  return children;
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+        {children}
+      </body>
+    </html>
+  );
 }

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    image: fremo
+    container_name: fremo-app-prod
+    restart: unless-stopped
+    # The app service depends on the db service defined below
+    depends_on:
+      - db
+    # Remove the volume mount to use the code baked into the image
+    volumes: []
+
+  db:
+    image: postgres:16-alpine
+    container_name: fremo-db-prod
+    # Load credentials securely from the .env file instead of hardcoding them
+    env_file:
+      - .env
+    volumes:
+      # Use a separate, named volume for production data
+      - postgres_data_prod:/var/lib/postgresql/data
+    # Do NOT expose the port to the host network in production unless you have a specific
+    # reason and a firewall. The 'app' container can reach it over the internal Docker network.
+    # ports:
+    #   - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  # Define the named volume for production data persistence
+  postgres_data_prod: {}

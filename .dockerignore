@@ -1,0 +1,24 @@
+# Docker specific files
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
+
+# Git and OS specific files
+.git
+.gitignore
+.DS_Store
+
+# Local environment files
+#.env
+.env.*
+!.env.example
+
+# Node modules and build artifacts
+node_modules
+.next
+dist
+
+# Log files
+*.log
+npm-debug.log
+adr

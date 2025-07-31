@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    container_name: fremo-app-dev
+    ports:
+      - '0.0.0.0:3000:3000'
+    volumes:
+      # Mount local source code into the container for hot-reloading
+      - .:/app
+      # Use a named volume for node_modules to prevent host-container conflicts
+      - /app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: pnpm dev
+
+  db:
+    image: postgres:16-alpine
+    container_name: fremo-db-dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fremo
+    ports:
+      # Expose the database port to the host for easier debugging
+      - '5432:5432'
+    volumes:
+      # Persist database data across container restarts
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}

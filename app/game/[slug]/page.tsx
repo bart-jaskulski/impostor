@@ -50,14 +50,15 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
 
   if (sessionCookie) {
     try {
-      const { payload } = await jwtVerify(sessionCookie.value, jwtSecret, { algorithms: ['HS256'] });
+      const { payload } = await jwtVerify(sessionCookie.value, jwtSecret, {
+        algorithms: ['HS256'],
+      });
       const playerId = payload.sub as string;
-      
-      const playerInGame = game.players.find(p => p.id === playerId);
+
+      const playerInGame = game.players.find((p) => p.id === playerId);
       if (playerInGame) {
         currentPlayer = playerInGame;
       }
-
     } catch {
       // Invalid token, user will be prompted to join.
     }

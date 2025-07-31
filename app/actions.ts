@@ -45,7 +45,7 @@ const joinGameSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   gameId: z.string(),
   isObserver: z.preprocess((val) => val === 'on' || val === true, z.boolean()).optional(),
-})
+});
 
 export async function joinGame(prevState: { error?: string }, formData: FormData) {
   const validatedFields = joinGameSchema.safeParse({
@@ -61,7 +61,7 @@ export async function joinGame(prevState: { error?: string }, formData: FormData
   const { name, gameId, isObserver } = validatedFields.data;
 
   const existingPlayer = await db.query.players.findFirst({
-    where: and(eq(players.gameId, gameId), eq(players.name, name))
+    where: and(eq(players.gameId, gameId), eq(players.name, name)),
   });
 
   if (existingPlayer) {

@@ -33,13 +33,13 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
                 <Checkbox id="isObserver" name="isObserver" />
                 <label
                   htmlFor="isObserver"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   Join as Observer
                 </label>
               </div>
               {state?.error && (
-                <p className="text-sm font-medium text-destructive">{state.error}</p>
+                <p className="text-destructive text-sm font-medium">{state.error}</p>
               )}
               <Button type="submit" className="w-full">
                 Join Game

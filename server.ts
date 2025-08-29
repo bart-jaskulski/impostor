@@ -6,7 +6,7 @@ import { jwtVerify } from 'jose';
 import { parse } from 'cookie';
 import { type Player, loadGame, getGame, updateGame, persistGame } from './lib/gameState';
 import { db } from './db';
-import { players }from './db/schema'
+import { players } from './db/schema';
 import { eq } from 'drizzle-orm';
 
 const port = parseInt(process.env.PORT || '3000', 10);
@@ -129,7 +129,7 @@ app.prepare().then(() => {
           where: eq(players.id, playerId),
         });
         if (playerFromDb) {
-          game.players.push({...playerFromDb, online: true});
+          game.players.push({ ...playerFromDb, online: true });
         }
       }
       updateGame(gameId, game);
@@ -179,7 +179,10 @@ app.prepare().then(() => {
       }
 
       initiator.isGatheringSummoned = true;
-      db.update(players).set({isGatheringSummoned: true}).where(eq(players.id, playerId)).execute();
+      db.update(players)
+        .set({ isGatheringSummoned: true })
+        .where(eq(players.id, playerId))
+        .execute();
       game.votes = {}; // Reset votes for the new gathering
       updateGame(gameId, game);
       io.to(gameId).emit('vote_started', { initiator, nominatedPlayerId });

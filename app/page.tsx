@@ -26,6 +26,7 @@ export default function CreateGamePage() {
       {/* Main Form */}
       <main className="flex justify-center px-4">
         <div className="w-full max-w-lg space-y-6">
+          {/* AIDEV-NOTE: Creation view shows no join URL; it's revealed in the lobby. */}
           {/* Game Setup Section */}
           <Card>
             <CardHeader>
@@ -39,6 +40,7 @@ export default function CreateGamePage() {
             </CardHeader>
             <CardContent>
               <form action={createGame} className="space-y-6">
+                {/* AIDEV-NOTE: Use Textarea for secrets; Lucide icons only (no emojis). */}
                 {/* Game Secrets Section */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">

@@ -166,6 +166,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
 
         <main className="flex justify-center px-4">
           <div className="w-full max-w-lg space-y-6">
+            {/* AIDEV-NOTE: URL is presented in lobby for sharing; not shown during creation. */}
             {/* Game Info Card */}
             <Card>
               <CardHeader>
@@ -182,7 +183,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
               <CardContent className="space-y-4">
                 {/* URL Display */}
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">Share this URL:</Label>
+                  <label className="text-sm font-medium">Share this URL:</label>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 rounded border bg-gray-50 p-2">
                       <code className="text-sm text-gray-700">

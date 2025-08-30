@@ -1,7 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Target, User, Zap, Vote, X, Eye, Ghost, Clock, MessageSquare, Search } from 'lucide-react';
+import {
+  Target,
+  User,
+  Zap,
+  Vote,
+  X,
+  Eye,
+  Ghost,
+  Clock,
+  MessageSquare,
+  Search,
+  MousePointerClick,
+} from 'lucide-react';
 
 type Player = {
   id: string;
@@ -97,7 +109,11 @@ export function GameSidebar({
 
             {isSelectingVictim && (
               <p className="animate-pulse text-center text-sm text-gray-600">
-                👆 Click on a player above to nominate them for voting
+                {/* AIDEV-NOTE: Use Lucide icons only; replaced emoji pointer with MousePointerClick. */}
+                <span className="inline-flex items-center gap-2">
+                  <MousePointerClick className="h-4 w-4 text-orange-500" />
+                  Click on a player above to nominate them for voting
+                </span>
               </p>
             )}
           </div>

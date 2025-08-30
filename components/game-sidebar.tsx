@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Search,
   MousePointerClick,
+  AlertTriangle,
 } from 'lucide-react';
 
 type Player = {
@@ -48,21 +49,21 @@ export function GameSidebar({
   };
 
   const getRoleColor = (role: string | null) => {
-    if (role === 'impostor') return 'text-red-600 bg-red-50 border-red-200';
-    return 'text-orange-600 bg-orange-50 border-orange-200';
+    if (role === 'impostor') return 'text-destructive bg-destructive/10 border-destructive/20';
+    return 'text-primary bg-primary/10 border-primary/20';
   };
 
   return (
     <div
-      className={cn('flex w-80 flex-col border-r border-gray-200 bg-gray-50 lg:w-80', className)}
+      className={cn('flex w-80 flex-col border-r border-border bg-card lg:w-80', className)}
     >
       <div className="space-y-4 p-4">
         {/* Player Role Card */}
-        <Card className="border-2 border-orange-200">
+        <Card className="border-2 border-border bg-card shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-orange-500" />
-              <CardTitle className="text-lg">Your Role</CardTitle>
+              <Target className="h-5 w-5 text-primary" />
+              <CardTitle className="text-lg font-serif">Your Role</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -81,11 +82,29 @@ export function GameSidebar({
 
             {/* Secret Information */}
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-800">Your Secret:</h4>
-              <div className="rounded-lg border bg-gray-100 p-3">
-                <p className="text-sm leading-relaxed text-gray-700">{secret}</p>
+              <h4 className="font-medium text-foreground flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-primary" />
+                Your Secret:
+              </h4>
+              <div className="rounded-lg border bg-muted p-4">
+                <p className="text-sm leading-relaxed text-foreground">{secret}</p>
               </div>
             </div>
+
+            {/* Role-specific tips */}
+            {player.role === 'impostor' && (
+              <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertTriangle className="h-4 w-4 text-destructive" />
+                  <span className="text-sm font-semibold text-destructive">Impostor Tips</span>
+                </div>
+                <ul className="text-xs text-destructive space-y-1">
+                  <li>• Blend in with the group discussion</li>
+                  <li>• Avoid giving too specific details</li>
+                  <li>• Redirect suspicion when possible</li>
+                </ul>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -97,10 +116,10 @@ export function GameSidebar({
               size="lg"
               variant={isSelectingVictim ? 'destructive' : 'default'}
               className={cn(
-                'w-full justify-center gap-2 font-semibold',
+                'w-full justify-center gap-2 font-semibold h-12',
                 isSelectingVictim
-                  ? 'bg-red-500 hover:bg-red-600'
-                  : 'bg-orange-500 text-white hover:bg-orange-600',
+                  ? ''
+                  : '',
               )}
             >
               {isSelectingVictim ? <X className="h-4 w-4" /> : <Vote className="h-4 w-4" />}
@@ -108,53 +127,67 @@ export function GameSidebar({
             </Button>
 
             {isSelectingVictim && (
-              <p className="animate-pulse text-center text-sm text-gray-600">
-                {/* AIDEV-NOTE: Use Lucide icons only; replaced emoji pointer with MousePointerClick. */}
-                <span className="inline-flex items-center gap-2">
-                  <MousePointerClick className="h-4 w-4 text-orange-500" />
-                  Click on a player above to nominate them for voting
-                </span>
-              </p>
+              <div className="rounded-lg bg-primary/5 border border-primary/20 p-3">
+                <p className="text-center text-sm text-primary">
+                  <span className="inline-flex items-center gap-2">
+                    <MousePointerClick className="h-4 w-4" />
+                    Click on a player above to nominate them for voting
+                  </span>
+                </p>
+              </div>
             )}
           </div>
         )}
 
         {/* Game Status Info */}
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2">
           {player.isObserver && (
-            <div className="flex items-center gap-2 rounded border border-blue-200 bg-blue-50 p-2">
-              <Eye className="h-4 w-4" />
-              <span>You are observing this game</span>
+            <div className="flex items-center gap-2 rounded-lg border border-border bg-muted p-3">
+              <Eye className="h-4 w-4 text-foreground" />
+              <span className="text-sm text-foreground">You are observing this game</span>
             </div>
           )}
 
           {player.status === 'ghost' && (
-            <div className="flex items-center gap-2 rounded border bg-gray-50 p-2">
-              <Ghost className="h-4 w-4" />
-              <span>You have been eliminated</span>
+            <div className="flex items-center gap-2 rounded-lg border border-border bg-muted p-3">
+              <Ghost className="h-4 w-4 text-foreground" />
+              <span className="text-sm text-foreground">You have been eliminated</span>
             </div>
           )}
 
           {player.isGatheringSummoned && !isSelectingVictim && (
-            <div className="flex items-center gap-2 rounded border border-yellow-200 bg-yellow-50 p-2">
-              <Clock className="h-4 w-4" />
-              <span>You have already nominated someone</span>
+            <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3">
+              <Clock className="h-4 w-4 text-amber-600" />
+              <span className="text-sm text-amber-700">You have already nominated someone</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Discussion Prompts */}
-      <div className="mt-auto border-t border-gray-200 bg-white p-4">
-        <h4 className="mb-3 font-medium text-gray-800">Discussion Tips</h4>
-        <div className="space-y-2 text-sm text-gray-600">
-          <div className="flex items-start gap-2">
-            <MessageSquare className="mt-0.5 h-4 w-4 text-orange-500" />
-            <span>Discuss and share your experiences</span>
+      <div className="mt-auto border-t border-border bg-card p-4">
+        <h4 className="mb-3 font-medium text-foreground flex items-center gap-2">
+          <MessageSquare className="h-4 w-4 text-primary" />
+          Discussion Tips
+        </h4>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-primary/5 transition-colors">
+            <div className="mt-0.5 p-1.5 bg-primary/10 rounded-md">
+              <MessageSquare className="h-4 w-4 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground">Share Experiences</p>
+              <p className="text-xs text-muted-foreground">Discuss and share your personal experiences related to the secret</p>
+            </div>
           </div>
-          <div className="flex items-start gap-2">
-            <Search className="mt-0.5 h-4 w-4 text-orange-500" />
-            <span>Look for inconsistencies in stories</span>
+          <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-primary/5 transition-colors">
+            <div className="mt-0.5 p-1.5 bg-primary/10 rounded-md">
+              <Search className="h-4 w-4 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground">Spot Inconsistencies</p>
+              <p className="text-xs text-muted-foreground">Listen carefully for contradictions in others' stories</p>
+            </div>
           </div>
         </div>
       </div>

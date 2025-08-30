@@ -12,11 +12,10 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Users, X, Vote, Eye, Ghost, Zap, User, Target, MessageSquare, Search, MousePointerClick, Clock } from 'lucide-react';
 import { PlayerAvatar } from '@/components/player-avatar';
 import { GameHeader } from '@/components/game-header';
 import { GameSidebar } from '@/components/game-sidebar';
-import { Users, X, Vote } from 'lucide-react';
 
 type Player = {
   id: string;
@@ -138,57 +137,100 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen items-center justify-center">Connecting to the game...</div>
+      <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="text-center relative z-10">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+          <h2 className="text-2xl font-serif font-semibold text-foreground">Connecting to the game...</h2>
+          <p className="text-muted-foreground">Please wait while we establish connection</p>
+        </div>
+      </div>
     );
   }
 
   if (!me) {
     return (
-      <div className="flex min-h-screen items-center justify-center">Re-syncing player data...</div>
+      <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="text-center relative z-10">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+          <h2 className="text-2xl font-serif font-semibold text-foreground">Re-syncing player data...</h2>
+          <p className="text-muted-foreground">Please wait while we update your information</p>
+        </div>
+      </div>
     );
   }
 
   if (game.status === 'lobby') {
     return (
-      <div className="min-h-screen bg-orange-50">
+      <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 p-4">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
+        </div>
+
         {/* Header */}
-        <div className="py-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500">
-              <span className="text-sm font-bold text-white">IG</span>
+        <div className="py-8 text-center relative z-10">
+          <div className="mb-6 inline-flex items-center gap-3">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-lg">
+              <Users className="h-8 w-8 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">Impostor Game</h1>
+            <div>
+              <h1 className="text-4xl font-serif font-bold text-foreground">Impostor Game</h1>
+              <p className="text-lg text-muted-foreground mt-2">The ultimate social deduction experience</p>
+            </div>
           </div>
-          <p className="mx-auto max-w-md text-gray-600">
+          <p className="mx-auto max-w-lg text-muted-foreground">
             Game Lobby - Share this URL to invite others to join your game
           </p>
         </div>
 
-        <main className="flex justify-center px-4">
-          <div className="w-full max-w-lg space-y-6">
-            {/* AIDEV-NOTE: URL is presented in lobby for sharing; not shown during creation. */}
+        <main className="flex justify-center px-4 pb-12 relative z-10">
+          <div className="w-full max-w-2xl space-y-6">
             {/* Game Info Card */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Game: {game.id}</span>
-                  <Badge variant="secondary" className="bg-green-100 text-green-800">
+            <Card className="shadow-xl border-2 border-border/50 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <CardTitle className="flex items-center gap-2 text-2xl font-serif">
+                      <Target className="h-6 w-6 text-primary" />
+                      Game Lobby: {game.id}
+                    </CardTitle>
+                    <CardDescription className="mt-1 text-base">
+                      Welcome, <strong className="text-primary">{me.name}</strong>! Waiting for the game to start...
+                    </CardDescription>
+                  </div>
+                  <Badge variant="outline" className="text-sm py-1 px-3">
                     Lobby
                   </Badge>
-                </CardTitle>
-                <CardDescription>
-                  Welcome, <strong>{me.name}</strong>! Waiting for the game to start...
-                </CardDescription>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
                 {/* URL Display */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Share this URL:</label>
+                <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 rounded border bg-gray-50 p-2">
-                      <code className="text-sm text-gray-700">
-                        {typeof window !== 'undefined' ? window.location.href : 'Loading...'}
-                      </code>
+                    <Users className="h-5 w-5 text-primary" />
+                    <label className="text-base font-medium text-foreground">Share this URL with friends:</label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 rounded-lg border bg-muted p-4 font-mono text-sm">
+                      {typeof window !== 'undefined' ? window.location.href : 'Loading...'}
                     </div>
                     <Button
                       variant="outline"
@@ -205,34 +247,56 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
                 </div>
 
                 {/* Players List */}
-                <div className="space-y-3">
-                  <h3 className="flex items-center gap-2 font-medium">
-                    <Users className="h-4 w-4" />
-                    Players Joined ({game.players.length})
-                  </h3>
-                  <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-primary" />
+                    <h3 className="text-xl font-serif font-semibold text-foreground">
+                      Players Joined ({game.players.length})
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {game.players.map((player) => (
-                      <div
+                      <Card 
                         key={player.id}
-                        className={`flex items-center gap-2 rounded-lg border p-3 ${
+                        className={`transition-all duration-200 border-2 ${
                           player.id === me.id
-                            ? 'border-orange-200 bg-orange-50'
-                            : 'border-gray-200 bg-white'
+                            ? 'border-primary/30 bg-primary/5 shadow-sm'
+                            : 'border-border bg-card hover:shadow-sm'
                         }`}
                       >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white">
-                          {player.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate font-medium text-gray-900">
-                            {player.name}
-                            {player.id === me.id && (
-                              <span className="ml-1 text-xs text-orange-600">(You)</span>
-                            )}
-                          </p>
-                          {player.isObserver && <p className="text-xs text-gray-500">Observer</p>}
-                        </div>
-                      </div>
+                        <CardContent className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                              <Users className="h-6 w-6 text-primary" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-2">
+                                <p className="truncate font-medium text-foreground">
+                                  {player.name}
+                                </p>
+                                {player.id === me.id && (
+                                  <Badge className="text-xs py-0.5">
+                                    You
+                                  </Badge>
+                                )}
+                              </div>
+                              {player.isObserver ? (
+                                <div className="flex items-center gap-1 mt-1">
+                                  <Eye className="h-3 w-3 text-muted-foreground" />
+                                  <span className="text-xs text-muted-foreground">Observer</span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-1 mt-1">
+                                  <div className={`h-2 w-2 rounded-full ${player.online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                                  <span className="text-xs text-muted-foreground">
+                                    {player.online ? 'Online' : 'Offline'}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
                     ))}
                   </div>
                 </div>
@@ -240,11 +304,47 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
               <CardFooter>
                 <Button
                   onClick={handleStartGame}
-                  className="w-full bg-orange-500 text-white hover:bg-orange-600"
+                  size="lg"
+                  className="w-full text-lg font-semibold h-12 shadow-lg"
                 >
                   Start Game
                 </Button>
               </CardFooter>
+            </Card>
+            
+            {/* Game Instructions */}
+            <Card className="backdrop-blur-sm border-border">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <MessageSquare className="h-5 w-5 text-primary" />
+                  How to Play
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex flex-col items-center text-center p-4 rounded-lg bg-primary/5">
+                    <div className="mb-3 p-3 bg-primary/10 rounded-xl">
+                      <User className="h-6 w-6 text-primary" />
+                    </div>
+                    <h4 className="font-semibold text-foreground">Receive Your Role</h4>
+                    <p className="text-xs text-muted-foreground mt-2">Each player gets a secret role and information</p>
+                  </div>
+                  <div className="flex flex-col items-center text-center p-4 rounded-lg bg-accent/5">
+                    <div className="mb-3 p-3 bg-accent/10 rounded-xl">
+                      <MessageSquare className="h-6 w-6 text-accent" />
+                    </div>
+                    <h4 className="font-semibold text-foreground">Discuss & Deduce</h4>
+                    <p className="text-xs text-muted-foreground mt-2">Share stories and identify inconsistencies</p>
+                  </div>
+                  <div className="flex flex-col items-center text-center p-4 rounded-lg bg-destructive/5">
+                    <div className="mb-3 p-3 bg-destructive/10 rounded-xl">
+                      <Vote className="h-6 w-6 text-destructive" />
+                    </div>
+                    <h4 className="font-semibold text-foreground">Vote & Eliminate</h4>
+                    <p className="text-xs text-muted-foreground mt-2">Vote out players you suspect are impostors</p>
+                  </div>
+                </div>
+              </CardContent>
             </Card>
           </div>
         </main>
@@ -262,7 +362,23 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
     const currentPhase = voteState ? 'Voting Phase' : 'Discussion Phase';
 
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {currentPhase === 'Discussion Phase' && (
+            <>
+              <div className="absolute top-20 left-10 w-40 h-40 bg-primary/5 rounded-full blur-2xl animate-pulse"></div>
+              <div className="absolute bottom-20 right-10 w-60 h-60 bg-accent/5 rounded-full blur-2xl animate-pulse"></div>
+            </>
+          )}
+          {currentPhase === 'Voting Phase' && (
+            <>
+              <div className="absolute top-20 left-10 w-40 h-40 bg-destructive/5 rounded-full blur-2xl animate-pulse"></div>
+              <div className="absolute bottom-20 right-10 w-60 h-60 bg-destructive/10 rounded-full blur-2xl animate-pulse"></div>
+            </>
+          )}
+        </div>
+
         {/* Game Header */}
         <GameHeader phase={currentPhase} timer={voteTimer} isVoting={!!voteState} />
 
@@ -281,17 +397,17 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
           {/* Main Content */}
           <div className="flex flex-1 flex-col">
             {/* Phase Progress */}
-            <div className="border-b border-gray-200 bg-white px-4 py-3">
+            <div className="border-b border-border bg-card/80 backdrop-blur-sm px-4 py-3 shadow-sm">
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="font-semibold text-gray-800">Phase Progress</h2>
-                <span className="text-sm text-gray-600">
+                <h2 className="font-semibold text-foreground">Game Progress</h2>
+                <span className="text-sm text-muted-foreground">
                   {game.players.filter((p) => p.status === 'active').length}/{game.players.length}{' '}
                   players ready
                 </span>
               </div>
-              <div className="h-2 w-full rounded-full bg-gray-200">
+              <div className="h-2.5 w-full rounded-full bg-muted">
                 <div
-                  className="h-2 rounded-full bg-orange-500 transition-all duration-300"
+                  className="h-2.5 rounded-full bg-gradient-to-r from-primary to-accent transition-all duration-500"
                   style={{
                     width: `${(game.players.filter((p) => p.status === 'active').length / Math.max(game.players.length, 1)) * 100}%`,
                   }}
@@ -300,22 +416,25 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
             </div>
 
             {/* Players Grid */}
-            <div className="flex-1 overflow-auto p-6">
+            <div className="flex-1 overflow-auto p-4 md:p-6">
               <div className="mb-4">
                 <div className="mb-4 flex items-center gap-2">
-                  <Users className="h-5 w-5 text-orange-500" />
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    Players ({game.players.filter((p) => !p.isObserver).length} alive)
+                  <Users className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold text-foreground">
+                    Players ({game.players.filter((p) => !p.isObserver && p.status !== 'ghost').length} alive)
                   </h3>
                 </div>
                 {isSelectingVictim && (
-                  <p className="mb-4 animate-pulse text-sm text-orange-600">
-                    Select a player to nominate for voting
-                  </p>
+                  <div className="mb-4 rounded-lg bg-primary/5 border border-primary/20 p-3 flex items-center gap-2">
+                    <MousePointerClick className="h-5 w-5 text-primary flex-shrink-0" />
+                    <p className="text-primary font-medium">
+                      Select a player to nominate for voting
+                    </p>
+                  </div>
                 )}
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {game.players.map((player) => {
                   const canClick =
                     isSelectingVictim &&
@@ -328,53 +447,71 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
                   return (
                     <Card
                       key={player.id}
-                      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
-                        canClick ? 'hover:border-orange-300 hover:bg-orange-50' : ''
-                      } ${player.id === me.id ? 'border-orange-400 ring-2 ring-orange-100' : ''} ${
-                        player.status === 'ghost' ? 'opacity-60 grayscale' : ''
+                      className={`cursor-pointer transition-all duration-300 hover:shadow-md overflow-hidden border-2 ${
+                        canClick 
+                          ? 'hover:border-primary hover:bg-primary/5 border-dashed border-primary/30' 
+                          : 'border-border'
+                      } ${player.id === me.id ? 'ring-2 ring-primary/30' : ''} ${
+                        player.status === 'ghost' ? 'opacity-70 grayscale' : ''
                       }`}
                       onClick={() => canClick && handleSummonGathering(player.id)}
                     >
-                      <CardContent className="p-4 text-center">
+                      <CardContent className="p-4">
                         <div className="space-y-3">
-                          {/* Player Initial Circle */}
-                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-orange-500 text-2xl font-bold text-white">
-                            {player.name.charAt(0).toUpperCase()}
+                          {/* Player Icon */}
+                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10">
+                            <Users className="h-8 w-8 text-primary" />
                           </div>
 
                           {/* Player Name */}
                           <div className="space-y-1">
-                            <h3 className="font-medium text-gray-900">
-                              {player.name}
+                            <div className="flex items-center justify-center gap-1">
+                              <h3 className="font-semibold text-foreground truncate">
+                                {player.name}
+                              </h3>
                               {player.id === me.id && (
-                                <Badge
-                                  variant="secondary"
-                                  className="ml-2 bg-orange-100 text-xs text-orange-800"
-                                >
+                                <Badge className="text-xs py-0.5">
                                   You
                                 </Badge>
                               )}
-                            </h3>
-                            <p className="text-xs text-gray-500">
-                              {player.isObserver
-                                ? 'Observer'
-                                : player.status === 'ghost'
-                                  ? 'Eliminated'
-                                  : 'Thinking...'}
-                            </p>
+                            </div>
+                            
+                            <div className="flex items-center justify-center gap-2">
+                              {player.isObserver ? (
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Eye className="h-3 w-3" />
+                                  <span>Observer</span>
+                                </div>
+                              ) : player.status === 'ghost' ? (
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Ghost className="h-3 w-3" />
+                                  <span>Eliminated</span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <div className={`h-2 w-2 rounded-full ${player.online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                                  <span>{player.online ? 'Online' : 'Offline'}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
 
-                          {/* Online Status */}
-                          <div className="flex items-center justify-center gap-1">
-                            <div
-                              className={`h-2 w-2 rounded-full ${
-                                player.online ? 'bg-green-500' : 'bg-gray-400'
-                              }`}
-                            />
-                            <span className="text-xs text-gray-500">
-                              {player.online ? 'Online' : 'Offline'}
-                            </span>
-                          </div>
+                          {/* Status Indicator */}
+                          {player.status === 'ghost' && (
+                            <div className="text-center">
+                              <Badge variant="destructive" className="text-xs py-0.5">
+                                Eliminated
+                              </Badge>
+                            </div>
+                          )}
+                          
+                          {player.isGatheringSummoned && (
+                            <div className="text-center">
+                              <Badge className="bg-amber-100 text-amber-800 text-xs py-0.5">
+                                Nominated
+                              </Badge>
+                            </div>
+                          )}
                         </div>
                       </CardContent>
                     </Card>
@@ -385,12 +522,12 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
 
             {/* Mobile Voting Button */}
             {canStartVoting && (
-              <div className="border-t border-gray-200 bg-white p-4 lg:hidden">
+              <div className="border-t border-border bg-card/80 backdrop-blur-sm p-4 lg:hidden">
                 <Button
                   onClick={() => setIsSelectingVictim((prev) => !prev)}
                   size="lg"
                   variant={isSelectingVictim ? 'destructive' : 'default'}
-                  className={`w-full font-semibold ${isSelectingVictim ? '' : 'bg-orange-500 text-white hover:bg-orange-600'}`}
+                  className={`w-full font-semibold h-12`}
                 >
                   <span className="flex items-center gap-2">
                     {isSelectingVictim ? <X className="h-4 w-4" /> : <Vote className="h-4 w-4" />}
@@ -402,98 +539,198 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
           </div>
         </div>
 
+        {/* Voting Modal */}
         {voteState && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <Card className="animate-in fade-in-90 w-full max-w-sm">
-              <CardHeader className="text-center">
-                <CardTitle>Vote Now!</CardTitle>
-                <CardDescription className="text-lg">
-                  <strong>{voteState.initiator.name}</strong>
-                  <span className="mx-2 font-bold">→</span>
-                  <strong>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <Card className="animate-in fade-in-90 slide-in-from-bottom-4 w-full max-w-md mx-4 border-0 shadow-2xl bg-card">
+              <CardHeader className="text-center pb-4">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+                  <Vote className="h-6 w-6 text-destructive" />
+                </div>
+                <CardTitle className="text-2xl">Vote Now!</CardTitle>
+                <CardDescription className="text-lg mt-2">
+                  <strong className="text-primary">{voteState.initiator.name}</strong>
+                  <span className="mx-2 font-bold text-muted-foreground">→</span>
+                  <strong className="text-destructive">
                     {game.players.find((p) => p.id === voteState.nominatedPlayerId)?.name}
                   </strong>
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex justify-around">
+              <CardContent className="space-y-4">
                 {!hasVoted ? (
-                  <>
-                    <Button variant="destructive" onClick={() => handleSubmitVote('drop')}>
+                  <div className="flex gap-4">
+                    <Button 
+                      variant="destructive" 
+                      onClick={() => handleSubmitVote('drop')}
+                      size="lg"
+                      className="flex-1 py-6 text-lg font-semibold"
+                    >
                       Drop
                     </Button>
-                    <Button variant="secondary" onClick={() => handleSubmitVote('remain')}>
+                    <Button 
+                      variant="secondary" 
+                      onClick={() => handleSubmitVote('remain')}
+                      size="lg"
+                      className="flex-1 py-6 text-lg font-semibold"
+                    >
                       Remain
                     </Button>
-                  </>
+                  </div>
                 ) : (
-                  <div className="text-muted-foreground flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    <span>Waiting for other players...</span>
+                  <div className="flex items-center justify-center gap-3 py-4">
+                    <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                    <span className="text-muted-foreground">Waiting for other players...</span>
+                  </div>
+                )}
+                
+                {/* Voting Timer */}
+                {voteTimer > 0 && (
+                  <div className="pt-2">
+                    <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-2">
+                      <Clock className="h-4 w-4" />
+                      <span>Time remaining: {Math.floor(voteTimer / 60)}:{(voteTimer % 60).toString().padStart(2, '0')}</span>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-destructive to-primary transition-all duration-1000"
+                        style={{ width: `${(voteTimer / 120) * 100}%` }}
+                      ></div>
+                    </div>
                   </div>
                 )}
               </CardContent>
-              <CardFooter className="flex flex-col gap-2">
-                <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
-                  <div
-                    className="bg-primary h-full"
-                    style={{ width: `${voteProgress}%`, transition: 'width 120s linear' }}
-                  ></div>
+            </Card>
+          </div>
+        )}
+
+        {/* Vote Result Notification */}
+        {voteResult && (
+          <div className="fixed right-4 bottom-4 z-50 w-full max-w-sm animate-in slide-in-from-bottom-4 duration-300">
+            <Card className="border-0 shadow-lg bg-card/90 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2">
+                  {voteResult.eliminatedPlayer ? (
+                    <>
+                      <X className="h-5 w-5 text-destructive" />
+                      Player Eliminated
+                    </>
+                  ) : (
+                    <>
+                      <User className="h-5 w-5 text-accent" />
+                      Player Remains
+                    </>
+                  )}
+                </CardTitle>
+                <CardDescription>
+                  {voteResult.eliminatedPlayer
+                    ? `${voteResult.eliminatedPlayer.name} was eliminated from the game!`
+                    : 'The player remains in the game.'}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        )}
+
+        {/* Game Over Modal */}
+        {gameOverState && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <Card className="animate-in fade-in-90 slide-in-from-bottom-4 w-full max-w-md mx-4 border-0 shadow-2xl bg-card">
+              <CardHeader className="text-center pb-4">
+                <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
+                  <Zap className="h-8 w-8 text-primary-foreground" />
                 </div>
+                <CardTitle className="text-3xl">Game Over!</CardTitle>
+                <CardDescription className="text-2xl font-bold capitalize mt-2">
+                  {gameOverState.winner === 'impostor' ? (
+                    <span className="text-destructive">Impostors Win!</span>
+                  ) : (
+                    <span className="text-accent">Players Win!</span>
+                  )}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="mb-3 text-center font-bold text-foreground">The impostor(s) were:</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    {gameOverState.players
+                      .filter((p) => p.role === 'impostor')
+                      .map((impostor) => (
+                        <div key={impostor.id} className="flex items-center gap-3 p-3 bg-destructive/5 rounded-lg border border-destructive/20">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive/10">
+                            <Zap className="h-5 w-5 text-destructive" />
+                          </div>
+                          <span className="font-medium text-foreground">{impostor.name}</span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  className="w-full text-lg font-semibold h-12 shadow-lg"
+                  size="lg"
+                  onClick={() => window.location.reload()}
+                >
+                  Play Again
+                </Button>
               </CardFooter>
             </Card>
           </div>
         )}
 
-        {voteResult && (
-          <div className="fixed right-5 bottom-5 z-50 w-[300px]">
-            <Card className="animate-in fade-in-90 slide-in-from-bottom-10 w-full max-w-sm">
-              <CardHeader>
-                <CardTitle>Vote Result</CardTitle>
-                <CardDescription>
-                  {voteResult.eliminatedPlayer
-                    ? `${voteResult.eliminatedPlayer.name} was eliminated!`
-                    : 'The player remains.'}
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        )}
-
-        {gameOverState && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <Card className="animate-in fade-in-90 w-full max-w-md text-center">
-              <CardHeader>
-                <CardTitle className="text-3xl">Game Over!</CardTitle>
-                <CardDescription className="text-2xl font-bold capitalize">
-                  {gameOverState.winner}s Win!
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <h3 className="mb-2 font-bold">The impostor(s) were:</h3>
-                {gameOverState.players
-                  .filter((p) => p.role === 'impostor')
-                  .map((impostor) => (
-                    <p key={impostor.id}>{impostor.name}</p>
-                  ))}
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
+        {/* Role Modal */}
         {showRoleModal && me && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <Card className="w-full max-w-md text-center">
-              <CardHeader>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <Card className="animate-in fade-in-90 slide-in-from-bottom-4 w-full max-w-md mx-4 border-0 shadow-2xl bg-card">
+              <CardHeader className="text-center pb-4">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary">
+                  {me.role === 'impostor' ? (
+                    <Zap className="h-6 w-6 text-primary-foreground" />
+                  ) : (
+                    <User className="h-6 w-6 text-primary-foreground" />
+                  )}
+                </div>
                 <CardTitle>Your Role</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold capitalize">{me.role}</p>
-                <p className="text-muted-foreground mt-2 text-lg">
-                  Secret: {me.role === 'impostor' ? game.impostorSecret : game.playerSecret}
-                </p>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <p className="text-2xl font-bold capitalize mb-2">
+                    {me.role === 'impostor' ? (
+                      <span className="text-destructive">Impostor</span>
+                    ) : (
+                      <span className="text-primary">Player</span>
+                    )}
+                  </p>
+                  <div className="mt-4 p-4 bg-muted rounded-lg border">
+                    <p className="text-foreground">
+                      <span className="font-semibold">Secret:</span>{' '}
+                      <span className="font-mono text-sm">
+                        {me.role === 'impostor' ? game.impostorSecret : game.playerSecret}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                
+                {me.role === 'impostor' && (
+                  <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Zap className="h-4 w-4 text-destructive" />
+                      <span className="text-sm font-semibold text-destructive">Impostor Tips</span>
+                    </div>
+                    <ul className="text-xs text-destructive space-y-1">
+                      <li>• Blend in with the group discussion</li>
+                      <li>• Avoid giving too specific details</li>
+                      <li>• Redirect suspicion when possible</li>
+                    </ul>
+                  </div>
+                )}
               </CardContent>
               <CardFooter>
-                <Button className="w-full" onClick={() => setShowRoleModal(false)}>
+                <Button 
+                  className="w-full text-lg font-semibold h-12 shadow-lg"
+                  size="lg"
+                  onClick={() => setShowRoleModal(false)}
+                >
                   Got it!
                 </Button>
               </CardFooter>
@@ -504,5 +741,21 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
     );
   }
 
-  return <div className="flex min-h-screen items-center justify-center">Loading game...</div>;
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="text-center relative z-10">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+        <h2 className="text-2xl font-serif font-semibold text-foreground">Loading game...</h2>
+        <p className="text-muted-foreground">Please wait while we set up your game</p>
+      </div>
+    </div>
+  );
 }

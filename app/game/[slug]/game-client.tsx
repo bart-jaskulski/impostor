@@ -16,6 +16,9 @@ import { Loader2, Users, X, Vote, Eye, Ghost, Zap, User, Target, MessageSquare, 
 import { PlayerAvatar } from '@/components/player-avatar';
 import { GameHeader } from '@/components/game-header';
 import { GameSidebar } from '@/components/game-sidebar';
+import { DecorativeBackground } from '@/components/decorative-background';
+import { PageHeader } from '@/components/page-header';
+import { PlayerList } from '@/components/player-list';
 
 type Player = {
   id: string;
@@ -138,11 +141,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
   if (!isConnected) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
-        </div>
+        <DecorativeBackground variant="default" />
         
         <div className="text-center relative z-10">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
@@ -158,11 +157,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
   if (!me) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
-        </div>
+        <DecorativeBackground variant="default" />
         
         <div className="text-center relative z-10">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
@@ -178,28 +173,15 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
   if (game.status === 'lobby') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 p-4">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
-        </div>
-
-        {/* Header */}
-        <div className="py-8 text-center relative z-10">
-          <div className="mb-6 inline-flex items-center gap-3">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-lg">
-              <Users className="h-8 w-8 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-serif font-bold text-foreground">Impostor Game</h1>
-              <p className="text-lg text-muted-foreground mt-2">The ultimate social deduction experience</p>
-            </div>
-          </div>
-          <p className="mx-auto max-w-lg text-muted-foreground">
-            Game Lobby - Share this URL to invite others to join your game
-          </p>
-        </div>
+        <DecorativeBackground variant="default" />
+        
+        <PageHeader
+          title="Impostor Game"
+          subtitle="The ultimate social deduction experience"
+          description="Game Lobby - Share this URL to invite others to join your game"
+          icon={<Users className="h-8 w-8 text-primary-foreground" />}
+          className="py-8"
+        />
 
         <main className="flex justify-center px-4 pb-12 relative z-10">
           <div className="w-full max-w-2xl space-y-6">
@@ -247,59 +229,11 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
                 </div>
 
                 {/* Players List */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-primary" />
-                    <h3 className="text-xl font-serif font-semibold text-foreground">
-                      Players Joined ({game.players.length})
-                    </h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {game.players.map((player) => (
-                      <Card 
-                        key={player.id}
-                        className={`transition-all duration-200 border-2 ${
-                          player.id === me.id
-                            ? 'border-primary/30 bg-primary/5 shadow-sm'
-                            : 'border-border bg-card hover:shadow-sm'
-                        }`}
-                      >
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                              <Users className="h-6 w-6 text-primary" />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <div className="flex items-center gap-2">
-                                <p className="truncate font-medium text-foreground">
-                                  {player.name}
-                                </p>
-                                {player.id === me.id && (
-                                  <Badge className="text-xs py-0.5">
-                                    You
-                                  </Badge>
-                                )}
-                              </div>
-                              {player.isObserver ? (
-                                <div className="flex items-center gap-1 mt-1">
-                                  <Eye className="h-3 w-3 text-muted-foreground" />
-                                  <span className="text-xs text-muted-foreground">Observer</span>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-1 mt-1">
-                                  <div className={`h-2 w-2 rounded-full ${player.online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
-                                  <span className="text-xs text-muted-foreground">
-                                    {player.online ? 'Online' : 'Offline'}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
+                <PlayerList
+                  players={game.players}
+                  currentPlayerId={me.id}
+                  title="Players Joined"
+                />
               </CardContent>
               <CardFooter>
                 <Button
@@ -364,20 +298,9 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20">
         {/* Background decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {currentPhase === 'Discussion Phase' && (
-            <>
-              <div className="absolute top-20 left-10 w-40 h-40 bg-primary/5 rounded-full blur-2xl animate-pulse"></div>
-              <div className="absolute bottom-20 right-10 w-60 h-60 bg-accent/5 rounded-full blur-2xl animate-pulse"></div>
-            </>
-          )}
-          {currentPhase === 'Voting Phase' && (
-            <>
-              <div className="absolute top-20 left-10 w-40 h-40 bg-destructive/5 rounded-full blur-2xl animate-pulse"></div>
-              <div className="absolute bottom-20 right-10 w-60 h-60 bg-destructive/10 rounded-full blur-2xl animate-pulse"></div>
-            </>
-          )}
-        </div>
+        <DecorativeBackground 
+          variant={currentPhase === 'Discussion Phase' ? 'discussion' : 'voting'} 
+        />
 
         {/* Game Header */}
         <GameHeader phase={currentPhase} timer={voteTimer} isVoting={!!voteState} />
@@ -434,90 +357,24 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {game.players.map((player) => {
-                  const canClick =
+              <PlayerList
+                players={game.players}
+                currentPlayerId={me.id}
+                title="Players"
+                showStatus={true}
+                onPlayerClick={handleSummonGathering}
+                selectablePlayers={game.players
+                  .filter(player => 
                     isSelectingVictim &&
                     me.status === 'active' &&
                     !me.isObserver &&
                     player.id !== me.id &&
                     player.status === 'active' &&
-                    !player.isObserver;
-
-                  return (
-                    <Card
-                      key={player.id}
-                      className={`cursor-pointer transition-all duration-300 hover:shadow-md overflow-hidden border-2 ${
-                        canClick 
-                          ? 'hover:border-primary hover:bg-primary/5 border-dashed border-primary/30' 
-                          : 'border-border'
-                      } ${player.id === me.id ? 'ring-2 ring-primary/30' : ''} ${
-                        player.status === 'ghost' ? 'opacity-70 grayscale' : ''
-                      }`}
-                      onClick={() => canClick && handleSummonGathering(player.id)}
-                    >
-                      <CardContent className="p-4">
-                        <div className="space-y-3">
-                          {/* Player Icon */}
-                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10">
-                            <Users className="h-8 w-8 text-primary" />
-                          </div>
-
-                          {/* Player Name */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-center gap-1">
-                              <h3 className="font-semibold text-foreground truncate">
-                                {player.name}
-                              </h3>
-                              {player.id === me.id && (
-                                <Badge className="text-xs py-0.5">
-                                  You
-                                </Badge>
-                              )}
-                            </div>
-                            
-                            <div className="flex items-center justify-center gap-2">
-                              {player.isObserver ? (
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                  <Eye className="h-3 w-3" />
-                                  <span>Observer</span>
-                                </div>
-                              ) : player.status === 'ghost' ? (
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                  <Ghost className="h-3 w-3" />
-                                  <span>Eliminated</span>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                  <div className={`h-2 w-2 rounded-full ${player.online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
-                                  <span>{player.online ? 'Online' : 'Offline'}</span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Status Indicator */}
-                          {player.status === 'ghost' && (
-                            <div className="text-center">
-                              <Badge variant="destructive" className="text-xs py-0.5">
-                                Eliminated
-                              </Badge>
-                            </div>
-                          )}
-                          
-                          {player.isGatheringSummoned && (
-                            <div className="text-center">
-                              <Badge className="bg-amber-100 text-amber-800 text-xs py-0.5">
-                                Nominated
-                              </Badge>
-                            </div>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
+                    !player.isObserver
+                  )
+                  .map(player => player.id)
+                }
+              />
             </div>
 
             {/* Mobile Voting Button */}
@@ -743,11 +600,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
-      </div>
+      <DecorativeBackground variant="default" />
       
       <div className="text-center relative z-10">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">

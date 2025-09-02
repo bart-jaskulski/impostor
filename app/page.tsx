@@ -8,6 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Settings, Gamepad2, Eye, Zap, Users, MessageSquare, Search } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { DecorativeBackground } from '@/components/decorative-background';
+import { PageHeader } from '@/components/page-header';
+import { SectionHeader } from '@/components/section-header';
+import { TipCard } from '@/components/tip-card';
 
 export default function CreateGamePage() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -27,29 +31,14 @@ export default function CreateGamePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 p-4">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
-      </div>
-
-      {/* Header */}
-      <div className="py-10 text-center relative z-10">
-        <div className="mb-6 inline-flex items-center gap-3">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-lg">
-            <Gamepad2 className="h-8 w-8 text-primary-foreground" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-serif font-bold text-foreground">Impostor Game</h1>
-            <p className="text-lg text-muted-foreground mt-2">The ultimate social deduction experience</p>
-          </div>
-        </div>
-        <p className="mx-auto max-w-lg text-muted-foreground">
-          Create an engaging social experience for your Zoom meetings. Set up secrets, choose
-          impostors, and let the fun begin!
-        </p>
-      </div>
+      <DecorativeBackground />
+      
+      <PageHeader
+        title="Impostor Game"
+        subtitle="The ultimate social deduction experience"
+        description="Create an engaging social experience for your Zoom meetings. Set up secrets, choose impostors, and let the fun begin!"
+        icon={<Gamepad2 className="h-8 w-8 text-primary-foreground" />}
+      />
 
       {/* Main Form */}
       <main className="flex justify-center px-4 pb-12 relative z-10">
@@ -57,70 +46,67 @@ export default function CreateGamePage() {
           {/* Game Setup Section */}
           <Card className="shadow-xl border-2 py-4 border-border/50 backdrop-blur-sm">
             <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <Settings className="h-6 w-6 text-primary" />
-                <div>
-                  <CardTitle className="text-2xl font-serif">Game Setup</CardTitle>
-                  <CardDescription className="text-base">
-                    Configure your game settings and create a memorable experience for all players
-                  </CardDescription>
-                </div>
-              </div>
+              <SectionHeader
+                title="Game Setup"
+                icon={<Settings className="h-6 w-6 text-primary" />}
+              >
+                <CardDescription className="text-base mt-1">
+                  Configure your game settings and create a memorable experience for all players
+                </CardDescription>
+              </SectionHeader>
             </CardHeader>
             <CardContent>
               <form ref={formRef} action={createGame} className="space-y-8">
                 {/* Game Secrets Section */}
                 <div className="space-y-5">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-xl font-serif font-semibold text-foreground">Game Secrets</h3>
-                  </div>
-
+                  <SectionHeader title="Game Secrets" />
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4 text-primary" />
-                            <Label htmlFor="playerSecret" className="text-base font-medium">
-                              Player Secret
-                            </Label>
-                          </div>
-                          <Textarea
-                            id="playerSecret"
-                            name="playerSecret"
-                            placeholder="e.g., 'You've all been to Japan recently. Share your favorite memory from your trip...'"
-                            required
-                            className="min-h-[100px] resize-none"
-                          />
-                          <p className="text-xs text-muted-foreground">
-                            This will be shown to all regular players
-                          </p>
-                        </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Users className="h-4 w-4 text-primary" />
+                        <Label htmlFor="playerSecret" className="text-base font-medium">
+                          Player Secret
+                        </Label>
+                      </div>
+                      <Textarea
+                        id="playerSecret"
+                        name="playerSecret"
+                        placeholder="e.g., 'You've all been to Japan recently. Share your favorite memory from your trip...'"
+                        required
+                        className="min-h-[100px] resize-none"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        This will be shown to all regular players
+                      </p>
+                    </div>
 
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <Eye className="h-4 w-4 text-destructive" />
-                            <Label htmlFor="impostorSecret" className="text-base font-medium">
-                              Impostor Secret
-                            </Label>
-                          </div>
-                          <Textarea
-                            id="impostorSecret"
-                            name="impostorSecret"
-                            placeholder="e.g., 'You haven't actually been to Japan, but you need to convince others you have...'"
-                            required
-                            className="min-h-[100px] resize-none border-destructive/20 focus:border-destructive/40"
-                          />
-                          <p className="text-xs text-muted-foreground">This will be shown only to impostors</p>
-                        </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Eye className="h-4 w-4 text-destructive" />
+                        <Label htmlFor="impostorSecret" className="text-base font-medium">
+                          Impostor Secret
+                        </Label>
+                      </div>
+                      <Textarea
+                        id="impostorSecret"
+                        name="impostorSecret"
+                        placeholder="e.g., 'You haven't actually been to Japan, but you need to convince others you have...'"
+                        required
+                        className="min-h-[100px] resize-none border-destructive/20 focus:border-destructive/40"
+                      />
+                      <p className="text-xs text-muted-foreground">This will be shown only to impostors</p>
+                    </div>
                   </div>
                 </div>
 
                 {/* Game Settings Section */}
                 <div className="space-y-5">
-                  <div className="flex items-center gap-3">
-                    <Settings className="h-5 w-5 text-muted-foreground" />
-                    <h3 className="text-xl font-serif font-semibold text-foreground">Game Settings</h3>
-                  </div>
-
+                  <SectionHeader 
+                    title="Game Settings" 
+                    icon={<Settings className="h-5 w-5 text-muted-foreground" />}
+                  />
+                  
                   <Card className="border border-border">
                     <CardContent>
                       <div className="space-y-6">
@@ -167,32 +153,22 @@ export default function CreateGamePage() {
                 </div>
 
                 {/* Tips Section */}
-                <Card className="bg-card border-border">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <MessageSquare className="h-5 w-5 text-primary" />
-                      How to Create Great Secrets
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5">
-                        <MessageSquare className="h-5 w-5 text-primary mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-foreground">Personal & Relatable</p>
-                          <p className="text-xs text-muted-foreground">Choose topics that players can connect with</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5">
-                        <Search className="h-5 w-5 text-primary mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-foreground">Specific Details</p>
-                          <p className="text-xs text-muted-foreground">Encourage sharing of unique experiences</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <TipCard
+                  title="How to Create Great Secrets"
+                  icon={<MessageSquare className="h-5 w-5 text-primary" />}
+                  tips={[
+                    {
+                      icon: <MessageSquare className="h-5 w-5 text-primary" />,
+                      title: "Personal & Relatable",
+                      description: "Choose topics that players can connect with"
+                    },
+                    {
+                      icon: <Search className="h-5 w-5 text-primary" />,
+                      title: "Specific Details",
+                      description: "Encourage sharing of unique experiences"
+                    }
+                  ]}
+                />
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-2">

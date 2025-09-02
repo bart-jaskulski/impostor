@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { User, Eye } from 'lucide-react';
+import { DecorativeBackground } from '@/components/decorative-background';
+import { PageHeader } from '@/components/page-header';
 
 const initialState = {
   error: '',
@@ -17,26 +19,23 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
   const [state, formAction] = useActionState(joinGame, initialState);
 
   return (
-    <div className="min-h-screen bg-orange-50">
-      {/* Header */}
-      <div className="py-8 text-center">
-        <div className="mb-4 inline-flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500">
-            <span className="text-sm font-bold text-white">IG</span>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-800">Impostor Game</h1>
-        </div>
-        <p className="mx-auto max-w-md text-gray-600">
-          Join an existing game and start playing with your friends
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 p-4">
+      <DecorativeBackground />
+      
+      <PageHeader
+        title="Impostor Game"
+        subtitle="The ultimate social deduction experience"
+        description="Join an existing game and start playing with your friends"
+        icon={<User className="h-8 w-8 text-primary-foreground" />}
+        className="py-8"
+      />
 
-      <main className="flex justify-center px-4">
+      <main className="flex justify-center px-4 relative z-10">
         <div className="w-full max-w-md">
-          <Card>
+          <Card className="shadow-xl border-2 border-border/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5 text-orange-500" />
+              <CardTitle className="flex items-center gap-2 text-2xl font-serif">
+                <User className="h-6 w-6 text-primary" />
                 Join Game {gameId}
               </CardTitle>
             </CardHeader>
@@ -45,7 +44,7 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
                 <input type="hidden" name="gameId" value={gameId} />
 
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-sm font-medium">
+                  <Label htmlFor="name" className="text-base font-medium">
                     Your Name
                   </Label>
                   <Input
@@ -53,14 +52,14 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
                     name="name"
                     placeholder="Enter your display name"
                     required
-                    className="focus:border-orange-300 focus:ring-orange-200"
+                    className="min-h-[44px]"
                   />
                 </div>
 
                 <div className="flex items-center space-x-2">
                   <Checkbox id="isObserver" name="isObserver" />
                   <div className="flex items-center gap-2">
-                    <Eye className="h-4 w-4 text-gray-500" />
+                    <Eye className="h-4 w-4 text-muted-foreground" />
                     <label
                       htmlFor="isObserver"
                       className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -69,7 +68,7 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
                     </label>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   Observers can watch the game but don't participate in voting
                 </p>
 
@@ -79,7 +78,8 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
 
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 text-white hover:bg-orange-600"
+                  size="lg"
+                  className="w-full text-lg font-semibold h-12 shadow-lg hover:shadow-xl transition-shadow"
                 >
                   Join Game
                 </Button>

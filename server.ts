@@ -110,6 +110,17 @@ app.prepare().then(() => {
     checkWinCondition(gameId);
   };
 
+  const calculateImpostorsBySqrt = (totalPlayers: number, creatorId: string) => {
+    const eligiblePlayers = totalPlayers - 1;
+    
+    if (eligiblePlayers < 2) return 0;
+    
+    // Square root scaling provides good balance across player counts
+    const calculatedImpostors = Math.floor(Math.sqrt(eligiblePlayers));
+    
+    return Math.max(1, Math.min(calculatedImpostors, Math.floor(eligiblePlayers / 2)));
+  };
+
   io.on('connection', async (socket) => {
     const { gameId, playerId } = socket.data;
     socket.join(gameId);
@@ -143,13 +154,17 @@ app.prepare().then(() => {
       const game = getGame(gameId);
       if (!game) return;
       const activePlayers = game.players.filter((p) => !p.isObserver);
-      if (activePlayers.length < 3 || game.impostorCount >= activePlayers.length / 2) {
+      
+      // Dynamically calculate impostor count based on player count
+      const impostorCount = calculateImpostorsBySqrt(activePlayers.length, playerId);
+      
+      if (activePlayers.length < 3 || impostorCount >= activePlayers.length / 2) {
         return; // Validation failed
       }
 
       const playersToAssign = [...activePlayers];
       const impostors: Player[] = [];
-      for (let i = 0; i < game.impostorCount; i++) {
+      for (let i = 0; i < impostorCount; i++) {
         const randomIndex = Math.floor(Math.random() * playersToAssign.length);
         impostors.push(playersToAssign.splice(randomIndex, 1)[0]);
       }

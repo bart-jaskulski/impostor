@@ -13,14 +13,12 @@ const jwtSecret = new TextEncoder().encode(process.env.SESSION_SECRET!);
 const SESSION_COOKIE_NAME = 'session';
 
 const createGameSchema = z.object({
-  impostorCount: z.coerce.number().min(1),
   playerSecret: z.string().min(1, 'Player secret is required'),
   impostorSecret: z.string().min(1, 'Impostor secret is required'),
 });
 
 export async function createGame(formData: FormData) {
   const validatedFields = createGameSchema.safeParse({
-    impostorCount: formData.get('impostorCount'),
     playerSecret: formData.get('playerSecret'),
     impostorSecret: formData.get('impostorSecret'),
   });
@@ -32,8 +30,10 @@ export async function createGame(formData: FormData) {
 
   const gameId = nanoid(6);
 
+  // Set a default impostor count of 1, which will be overridden when the game starts
   await db.insert(games).values({
     id: gameId,
+    impostorCount: 1,
     ...validatedFields.data,
   });
 

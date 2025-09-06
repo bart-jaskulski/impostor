@@ -63,7 +63,7 @@ export function GameSidebar({
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <Target className="h-5 w-5 text-primary" />
-              <CardTitle className="text-lg font-serif">Your Role</CardTitle>
+              <CardTitle className="text-lg">Your Role</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">

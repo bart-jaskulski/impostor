@@ -38,7 +38,7 @@ export function PlayerList({
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Users className="h-5 w-5 text-primary" />
-        <h3 className="text-xl font-serif font-semibold text-foreground">
+        <h3 className="text-xl font-semibold text-foreground">
           {title} ({players.length})
         </h3>
       </div>

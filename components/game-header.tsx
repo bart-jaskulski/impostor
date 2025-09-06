@@ -41,7 +41,7 @@ export function GameHeader({
             <MessageCircle className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-lg font-serif font-bold text-foreground sm:text-xl">Impostor Game</h1>
+            <h1 className="text-lg font-bold text-foreground sm:text-xl">Impostor Game</h1>
             <span className="text-xs font-medium text-muted-foreground sm:text-sm">Round {round}</span>
           </div>
         </div>

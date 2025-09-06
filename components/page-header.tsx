@@ -24,7 +24,7 @@ export function PageHeader({
           {icon}
         </div>
         <div>
-          <h1 className="text-4xl font-serif font-bold text-foreground">{title}</h1>
+          <h1 className="text-4xl font-bold text-foreground">{title}</h1>
           {subtitle && <p className="text-lg text-muted-foreground mt-2">{subtitle}</p>}
         </div>
       </div>

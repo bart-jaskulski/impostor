@@ -147,7 +147,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
-          <h2 className="text-2xl font-serif font-semibold text-foreground">Connecting to the game...</h2>
+          <h2 className="text-2xl font-semibold text-foreground">Connecting to the game...</h2>
           <p className="text-muted-foreground">Please wait while we establish connection</p>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
-          <h2 className="text-2xl font-serif font-semibold text-foreground">Re-syncing player data...</h2>
+          <h2 className="text-2xl font-semibold text-foreground">Re-syncing player data...</h2>
           <p className="text-muted-foreground">Please wait while we update your information</p>
         </div>
       </div>
@@ -190,7 +190,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
               <CardHeader className="pb-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <CardTitle className="flex items-center gap-2 text-2xl font-serif">
+                    <CardTitle className="flex items-center gap-2 text-2xl">
                       <Target className="h-6 w-6 text-primary" />
                       Game Lobby: {game.id}
                     </CardTitle>
@@ -606,7 +606,7 @@ export default function GameClient({ initialGame, currentPlayer, gameId }: GameC
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
-        <h2 className="text-2xl font-serif font-semibold text-foreground">Loading game...</h2>
+        <h2 className="text-2xl font-semibold text-foreground">Loading game...</h2>
         <p className="text-muted-foreground">Please wait while we set up your game</p>
       </div>
     </div>

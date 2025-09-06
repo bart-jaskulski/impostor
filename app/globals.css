@@ -259,8 +259,6 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.9 0.01 85);
   --sidebar-ring: oklch(0.65 0.18 45 / 0.5);
-  --font-manrope: "Manrope", sans-serif;
-  --font-geist: "Geist", serif;
 }
 
 .dark {
@@ -297,16 +295,9 @@
   --sidebar-accent-foreground: oklch(0.9 0 0);
   --sidebar-border: oklch(0.3 0 0);
   --sidebar-ring: oklch(0.75 0.15 40 / 0.5);
-  --font-manrope: "Manrope", sans-serif;
-  --font-geist: "Geist", serif;
 }
 
 @theme inline {
-  /* Font mappings */
-  --font-sans: var(--font-manrope); /* Manrope for body text */
-  --font-serif: var(--font-geist); /* Geist for headings */
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

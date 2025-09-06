@@ -22,7 +22,7 @@ export function SectionHeader({
         </div>
       )}
       <div>
-        <h2 className="text-2xl font-serif font-semibold text-foreground">{title}</h2>
+        <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
         {children}
       </div>
     </div>

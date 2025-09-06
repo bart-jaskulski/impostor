@@ -34,7 +34,7 @@ export function JoinGameForm({ gameId }: { gameId: string }) {
         <div className="w-full max-w-md">
           <Card className="shadow-xl border-2 border-border/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-2xl font-serif">
+              <CardTitle className="flex items-center gap-2 text-2xl">
                 <User className="h-6 w-6 text-primary" />
                 Join Game {gameId}
               </CardTitle>

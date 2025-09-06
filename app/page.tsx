@@ -61,7 +61,7 @@ export default function CreateGamePage() {
                 <div className="space-y-5">
                   <SectionHeader title="Game Secrets" />
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-6">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Users className="h-4 w-4 text-primary" />
